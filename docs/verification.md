@@ -5,10 +5,12 @@ This record describes checks actually run during the initial implementation. Nat
 ## Local Linux checks
 
 - The standard-library unittest suite covers source query contracts, lockfile and OS metadata, runtime records, cache and pagination failures, matching boundaries, state reconciliation, network evidence, patch approval and target-scope protections.
+- The initial local run completed 132 tests successfully, with the native Windows-only WUA probe skipped on Linux.
 - `python tests/smoke_cli.py` verifies automatic first-run initialization, an unchanged rescan, an offline incomplete result and the platform launcher using a temporary application. It does not install a package.
 - A native Linux inventory collected 779 components. Repeating the same scoped scan returned zero added, changed or removed components and an unchanged map fingerprint.
 - Live public-coordinate queries exercised OSV, the PSF and Node.js sources, plus native Ubuntu source-package coordinates. HTTP failures remained coverage entries; the official CISA mirror was used after the canonical endpoint was denied.
 - Approval, changed/tampered plans, environment drift, failed patch execution, native transaction changes, npm installation scope and Python virtual-environment identity were tested with harmless temporary fixtures and injected command runners. No live system patch was performed.
+- `npx skills add HHC225/ARO --list` discovered the published `aro` skill without installing it.
 
 ## Cross-platform CI
 

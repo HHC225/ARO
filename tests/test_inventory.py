@@ -83,7 +83,7 @@ class InventoryProvenanceTests(unittest.TestCase):
             result=inventory.collect_inventory([directory],{'host':False,'docker':False,'discover_services':False})
             self.assertEqual([c['name'] for c in result['components']],['bar'])
             self.assertEqual(result['components'][0]['collector'],'lockfile')
-            self.assertTrue(any(c.get('scope')==str(root/'package-lock.json') and c['status']=='partial' for c in result['coverage']))
+            self.assertTrue(any(c.get('scope') and Path(c['scope']).resolve()==(root/'package-lock.json').resolve() and c['status']=='partial' for c in result['coverage']))
     def test_root_ancestor_symlink_is_not_followed(self):
         with tempfile.TemporaryDirectory() as directory:
             root=Path(directory);(root/'real'/'sub').mkdir(parents=True)

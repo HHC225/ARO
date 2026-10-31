@@ -106,7 +106,7 @@ class PatchTests(unittest.TestCase):
                                           "metadata": {"project_path": str(project), "direct": True}})
             plan = create_plan(inv, finding(), "1.0.1", resolver=resolver)
             self.assertIn("--global=false", plan["steps"][0]["argv"])
-            self.assertEqual(plan["steps"][0]["argv"][plan["steps"][0]["argv"].index("--prefix") + 1], str(project))
+            self.assertEqual(plan["steps"][0]["argv"][plan["steps"][0]["argv"].index("--prefix") + 1], str(project.resolve()))
             lockfile.write_text('{"lockfileVersion":2}', encoding="utf-8")
             with self.assertRaises(PatchRefused):
                 apply_plan(plan, plan["plan_hash"], inv, resolver=resolver)

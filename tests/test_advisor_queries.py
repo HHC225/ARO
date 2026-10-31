@@ -348,7 +348,9 @@ class AdvisoryQueries(unittest.TestCase):
             return SimpleNamespace(returncode=0,stdout=json.dumps(
                 {'VulnerabilityDB':{'UpdatedAt':'2026-10-31T00:00:00Z'}} if '--version' in argv else
                 {'Metadata':{'OS':{'Family':'alpine','Name':'3.19'}},'Results':[]}))
-        with patch('shutil.which',return_value='/usr/bin/trivy'), patch('subprocess.run',side_effect=run):
+        # These fixtures exercise scanner arguments; executable trust has its own regression.
+        with patch('aro_core.advisory_trivy._trusted_scanner',return_value=True), \
+             patch('shutil.which',return_value='/usr/bin/trivy'), patch('subprocess.run',side_effect=run):
             advisories.query_advisories(inventory,self.cache,{'requester':FakeHTTP(),'offline':True})
         scan=calls[0][0]
         self.assertEqual(scan[scan.index('--image-src')+1],'docker')
@@ -449,7 +451,9 @@ class AdvisoryQueries(unittest.TestCase):
             return SimpleNamespace(returncode=0,stdout=json.dumps(
                 {'VulnerabilityDB':{'UpdatedAt':'2026-10-31T00:00:00Z'}} if '--version' in argv else
                 {'Metadata':{'OS':{'Family':'alpine','Name':'3.19'}},'Results':[]}))
-        with patch('shutil.which',return_value='/usr/bin/trivy'),patch('subprocess.run',side_effect=run):
+        # The synthetic executable is independent of the operating system running this test.
+        with patch('aro_core.advisory_trivy._trusted_scanner',return_value=True), \
+             patch('shutil.which',return_value='/usr/bin/trivy'),patch('subprocess.run',side_effect=run):
             advisories.query_advisories(inventory,self.cache,{'requester':FakeHTTP(),'offline':True})
         self.assertEqual(len(scans),1)
         self.assertEqual(scans[0][-1],image)
