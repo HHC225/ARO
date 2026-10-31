@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+.venv/
+.aro/
+.test-state/
+.superpowers/
+coverage.xml
+.coverage
+dist/
+build/
+*.egg-info/
