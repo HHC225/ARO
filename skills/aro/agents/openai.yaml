@@ -1,0 +1,4 @@
+interface:
+  display_name: "ARO"
+  short_description: "Check server software and approve bounded updates"
+  default_prompt: "Use $aro to refresh this server's software map, explain practical vulnerability risks, and prepare updates for my approval."
